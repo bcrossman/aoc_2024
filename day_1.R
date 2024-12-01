@@ -16,7 +16,7 @@ df %>%
   pull(dif) %>% 
   sum()
   
-## Part 1
+## Part 2
 count_map <- 
   df %>% 
   count(v2)
