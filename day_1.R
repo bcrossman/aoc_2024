@@ -1,8 +1,6 @@
 library(tidyverse)
 file <- readLines("./inputs/input1.txt")
 
-locations <- (lapply(file, function(x) as.numeric(unlist(strsplit(x, "   ")))))
-
 ## Part 1
 df <- 
 file %>% 
