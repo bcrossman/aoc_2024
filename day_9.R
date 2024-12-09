@@ -74,7 +74,6 @@ for (i in nrow(file_size):1) {
 # if(remaining_value_unprocessed>0){
 # last_file_size <- tibble(index = current_index, value = remaining_value_unprocessed)}
 
-
 used_free_space <- bind_rows(output_list)
 
 df <- 
