@@ -16,7 +16,7 @@ free_space <- data %>% filter(index %% 2 == 0)
 free_space_remaining <- free_space %>% mutate(assigned_index = NA_integer_)
 output_list <- list()
 
-# PART 1
+# PART I
 
 for (i in nrow(file_size):1) {
   # i <- 10
@@ -43,7 +43,7 @@ for (i in nrow(file_size):1) {
     assigned_rows <- 
       assigned_rows %>% 
       bind_rows(
-        last_file_size <- tibble(index = current_index, assigned_index = current_index, value = current_value- sum(assigned_rows$value))
+       tibble(index = current_index, assigned_index = current_index, value = current_value- sum(assigned_rows$value))
       )
     output_list[[as.character(i)]] <- assigned_rows
     break}
@@ -114,9 +114,6 @@ for (i in nrow(file_size):1) {
   current_index <- file_size$index[i]
   translated_index <- (current_index-1)/2
   current_value <- file_size$value[i]
-  # print(i)
-  # print(current_index)
-  # print(free_space_remaining$index[1])
   possible <- free_space_remaining %>%
     filter(value >= current_value) %>% 
     filter(index<current_index)
