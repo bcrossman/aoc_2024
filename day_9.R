@@ -108,9 +108,6 @@ free_space_remaining <- free_space %>% mutate(assigned_index = NA_integer_)
 output_list <- list()
 
 for (i in nrow(file_size):1) {
-  # i <- 10
-  # if(i == 5282){asd}
-  
   current_index <- file_size$index[i]
   translated_index <- (current_index-1)/2
   current_value <- file_size$value[i]
@@ -149,7 +146,6 @@ output_list[[as.character(i)]] <- assigned_rows
 # 
 # if(remaining_value_unprocessed>0){
 # last_file_size <- tibble(index = current_index, value = remaining_value_unprocessed)}
-
 
 used_free_space <- bind_rows(output_list)
 
