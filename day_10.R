@@ -62,9 +62,9 @@ g <- graph_from_data_frame(d = edge_list, directed = TRUE)
 trail_head_score <- 0
 
 for(beg in edge_points %>% filter(map == 0) %>% pull(start) %>% unique()) {
-  beg <- "3, 1"
+  # beg <- "3, 1"
   for(end in edge_points %>% filter(map == 9) %>% pull(start) %>% unique()) {
-    end <- "2, 1"
+    # end <- "2, 1"
     shortest_path <- get.shortest.paths(g, from = beg, to = end)  
     if (length(shortest_path$vpath[[1]]) > 0) {  
       trail_head_score <- trail_head_score + 1
