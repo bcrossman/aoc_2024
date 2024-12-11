@@ -37,7 +37,6 @@ for(blinks in 1:25){
     summarize(n = sum(n))
 }
 
-
 data$n %>% sum
 
 ## Part 2
