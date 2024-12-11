@@ -38,7 +38,7 @@ blink_run <- function(data, blinks) {
     
     data <- bind_rows(zeros, evens, remaining) %>%
       group_by(value) %>%
-      summarize(n = sum(n), .groups = "drop")
+      summarize(n = sum(n))
   }
   
   return(data$n %>% sum %>% as.character())
