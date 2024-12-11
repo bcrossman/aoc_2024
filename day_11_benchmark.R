@@ -97,3 +97,9 @@ benchmark_results <- microbenchmark(
 
 benchmark_results
 
+#Unit: milliseconds
+#expr      min       lq     mean   median       uq      max neval
+#Method1 708.6825 721.9882 730.5786 731.5521 734.7662 770.1641    20
+#Method2 650.3303 665.8900 681.0032 670.2369 676.8711 832.1300    20
+#> 681/730.57
+#> [1] 0.9321489
