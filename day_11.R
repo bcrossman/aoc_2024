@@ -9,7 +9,6 @@ data <-
 blink_run <- function(data, blinks) {
   for (blink in seq_len(blinks)) {
     data <- data %>%
-      rowid_to_column() %>%
       mutate(len = str_length(value),
              group = case_when(
                value == 0 ~ "zeros",
