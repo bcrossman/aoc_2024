@@ -8,7 +8,7 @@ data <-
   count(value)
 
 blink_run <- function(data, blinks) {
-  for (blink in 1:blinks) {
+  for (blink in seq_len(blinks)) {
     data <- data %>% 
       rowid_to_column() %>% 
       mutate(len = str_length(value))
@@ -21,7 +21,7 @@ blink_run <- function(data, blinks) {
       bind_rows(list(
         zeros %>% mutate(value = 1),
         evens %>% mutate(value1 = as.integer(value %/% 10^(len / 2)),
-                         value2 = as.integer(value - value1 * 10^(len / 2))) %>% 
+                         value2 = value %% 10^(len / 2)) %>% 
           select(-value, -len) %>% 
           pivot_longer(
             cols = c(value1, value2),
