@@ -7,8 +7,8 @@ data <-
   separate_rows(value, sep = " ", convert = TRUE) %>% 
   count(value)
 
-blink <- function(data, blinks) {
-  for (blinks in 1:blinks) {
+blink_run <- function(data, blinks) {
+  for (blink in 1:blinks) {
     data <- data %>% 
       rowid_to_column() %>% 
       mutate(len = str_length(value))
@@ -41,7 +41,7 @@ blink <- function(data, blinks) {
 }
 
 # Part 1
-blink(data, 25)
+blink_run(data, 25)
 
 # Part 2
-blink(data, 75)
+blink_run(data, 75)
