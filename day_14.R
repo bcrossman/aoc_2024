@@ -48,15 +48,33 @@ good_seconds <-
     summarise(n = n()) %>% 
   arrange(desc(n), seconds)
   
-robots %>% 
-  rowid_to_column() %>% 
-  crossing(seconds = good_seconds$seconds[1]) %>% 
+p <- robots %>%
+  rowid_to_column() %>%
+  crossing(seconds = good_seconds$seconds[1]) %>%
   mutate(
-    x = (x + vx*seconds) %% wide,  
-    y = (y + vy*seconds) %% tall) %>% 
-  ggplot(aes(x = x, y = y), color="green") +
-  geom_point(size = 3) +
+    x = (x + vx * seconds) %% wide,  
+    y = (y + vy * seconds) %% tall
+  ) %>%
+  ggplot(aes(x = x, y = -y)) +
+  geom_point(size = 3, color = "green") +
   scale_color_viridis_d(guide = "none") +
-  theme_minimal() 
+  theme_minimal()
 
+# Save the plot as an image
+ggsave("day14_tree.png", plot = p, width = 8, height = 6, dpi = 300)
+
+#  alternative method to look for dispersion
+#  robots %>% 
+#   rowid_to_column() %>% 
+#   crossing(seconds = c(1:15000)) %>%
+#   mutate(
+#     x = (x + vx*seconds) %% wide,  
+#     y = (y + vy*seconds) %% tall) %>% 
+# group_by(seconds) %>%
+#   summarize(
+#     sd_x = sd(x, na.rm = TRUE),   
+#     sd_y = sd(y, na.rm = TRUE),  
+#     dispersion = sqrt(sd_x^2 + sd_y^2) 
+#   ) %>% 
+#   arrange((dispersion)) 
 
