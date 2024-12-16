@@ -173,9 +173,9 @@ start <- stuff %>% filter(value=="@")
 reverse_grid(stuff)
 count <- 1
 for(direction in str_split(orders, pattern = "")[[1]]){
-  print(direction)
-  print(count)
-  print(str_length(orders))
+  # print(direction)
+  # print(count)
+  # print(str_length(orders))
   # if(count == 349){
   #   print(reverse_grid(stuff),n =500)
   #   print(start)
