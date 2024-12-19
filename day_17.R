@@ -30,7 +30,6 @@ execute_program <- function(initial_A, program) {
   output <- c()  
   instruction_pointer <- 1  
   
-  # Program execution loop
   while (instruction_pointer <= length(program)) {
     opcode <- program[instruction_pointer]
     operand <- program[instruction_pointer + 1]
@@ -112,5 +111,4 @@ for(i in 0:(length(program)-1)){
   }
   
 }
-
-current_test %>% scales::comma()
+format(current_test, scientific = FALSE)

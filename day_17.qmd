@@ -1,0 +1,134 @@
+---
+title: "day_17_r_python"
+format: html
+editor: visual
+---
+
+## Quarto
+
+### Python Code
+
+```{python}
+def eval_combo(operand, registers):
+    if operand in range(4):
+        return operand
+    if operand == 4:
+        return registers['A']
+    if operand == 5:
+        return registers['B']
+    if operand == 6:
+        return registers['C']
+    return -1
+
+def execute_program(initial_A, program):
+    registers = {'A': int(initial_A), 'B': 0, 'C': 0}
+    output = []
+    instruction_pointer = 0
+
+    while instruction_pointer < len(program):
+        opcode = program[instruction_pointer]
+        operand = program[instruction_pointer + 1]
+        combo = eval_combo(operand, registers)
+
+        if opcode == 0:
+            denominator = 2 ** int(combo)
+            registers['A'] = registers['A'] // denominator
+        elif opcode == 1:
+            registers['B'] = registers['B'] ^ int(operand) 
+        elif opcode == 2:
+            registers['B'] = int(combo) % 8
+        elif opcode == 3 and registers['A'] != 0:
+            instruction_pointer = operand
+            continue
+        elif opcode == 4:
+            registers['B'] = registers['B'] ^ registers['C']  
+        elif opcode == 5:
+            output.append(int(combo) % 8)
+        elif opcode == 6:
+            denominator = 2 ** int(combo)
+            registers['B'] = registers['A'] // denominator
+        elif opcode == 7:
+            denominator = 2 ** int(combo)
+            registers['C'] = registers['A'] // denominator
+
+        instruction_pointer += 2
+
+    return output
+```
+
+## Actual R Program
+
+```{r}
+library(reticulate)
+library(unglue)
+library(tidyverse)
+
+input <- readLines("inputs/input17.txt")
+input_split <- split(input, cumsum(input == ""))
+
+registers <- unglue_data(input_split[[1]], "Register {name}: {value}") %>%
+  mutate(value = as.integer(value)) %>%
+  deframe() %>%
+  as.list()
+
+program <- input_split[[2]][2] %>%
+  str_remove("Program: ") %>%
+  str_split(",") %>%
+  unlist() %>%
+  as.integer()
+
+program <- as.integer(unlist(strsplit(gsub("Program: ", "", input[5]), ",")))
+
+target_output <- program
+
+output <- py$execute_program(registers$A, program)
+print(paste(output, collapse = ","))
+
+## This part isn't needed, I just used it to find patterns (the 8^x thing)
+# digits <- 2
+# max_length_reached <- 0
+# specific_test <- NULL
+# increment <- 0
+# 
+# repeat {
+#   A <- 1 + increment
+#   output <- py$execute_program(A, program)
+#   current_length <- length(output)
+#   lintial_A_output_digits <- output[max((current_length - digits + 1), 1):current_length]
+#   lintial_A_program_digits <- program[max((length(program) - digits + 1), 1):length(program)]
+#   if (!is.null(specific_test)) {
+#     lintial_A_program_digits <- specific_test
+#   }
+#   if (current_length > max_length_reached && all(lintial_A_output_digits == lintial_A_program_digits)) {
+#     print(output)
+#     print(A)
+#     max_length_reached <- current_length
+#   }
+#   if (increment == 100000) {
+#     break
+#   }
+#   increment <- increment + 1
+# }
+
+# Solve final test
+current_test <- 0  
+for (i in 0:(length(program) - 1)) {
+  print(i)
+  small_adjust <- 0
+  working <- TRUE
+  while (working) {
+    temp_test <- current_test * 8 + small_adjust
+    result <- py$execute_program(temp_test, program)
+    result <- na.omit(result)
+    if (all(result == program[(length(program) - i):length(program)])) {
+      current_test <- temp_test
+      working <- FALSE
+      print(small_adjust)
+    }
+    small_adjust <- small_adjust + 1
+  }
+}
+
+format(current_test, scientific = FALSE)
+
+```
