@@ -120,4 +120,4 @@ teleport_time_saver(2, 100)
 
 
 ##Part II
-teleport_time_saver(2, 100)
+teleport_time_saver(20, 100)
